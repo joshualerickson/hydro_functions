@@ -7,11 +7,11 @@ lpearsonIII <- function(data,x, y, plot = TRUE){
   
   if (!nrow(max.x) >= 10) {stop("Warning: Need more data (e.g. years).")}
   
-  mean.x <- mean(log10(max.x$x)) #log mean of max Q
+  mean.x <- mean(log(max.x$x)) #log mean of max Q
   
-  sd.x <- sd(log10(max.x$x)) #log standard deviation of max Q
+  sd.x <- sd(log(max.x$x)) #log standard deviation of max Q
   
-  skewness <- format(round(kurtosi(log10(max.x$x)), 1)) #finds the skewness of distribution
+  skewness <- format(round(skew(log(max.x$x),type = 3))) #finds the skewness of distribution
   
   lp.table <- logPearson_table # need the log pearson skewness table, z-values won't work
   
@@ -24,8 +24,8 @@ lpearsonIII <- function(data,x, y, plot = TRUE){
   ReOccurence <- c(2,5,10,25,50,100,200)
   Flood.Freq <- data.frame(log.pearson, ReOccurence)
   
-  Flood.Freq <- Flood.Freq %>% mutate(Anti_log = 10^log.pearson,#need antilog to read back data
-                                      Log_ROI = log10(ReOccurence)) 
+  Flood.Freq <- Flood.Freq %>% mutate(Anti_log = exp(log.pearson),#need antilog to read back data
+                                      Log_ROI = log(ReOccurence)) 
   df <- tibble(ReOccurence = seq(2,200,1))
   lm.fit <- glm(Anti_log~ns(log(ReOccurence),4), data = Flood.Freq) 
   tidy_fit <- glance(lm.fit)
