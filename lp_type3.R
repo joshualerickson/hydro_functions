@@ -1,3 +1,12 @@
+
+#needed libraries
+library(psych)
+library(lubridate)
+library(splines)
+library(ggrepel)
+library(tidyverse)
+library(broom)
+
 lpearsonIII <- function(data,x, y, plot = TRUE){
   max.x <- tibble(x,y) 
   max.x <- na.omit(max.x)
